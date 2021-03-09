@@ -6,6 +6,7 @@ version = "0.1.0"
 [deps]
 CUTEst = "1b53aba6-35b6-5f92-a507-53c67d53f819"
 ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
 NLPModels = "a4795742-8479-5a88-8948-cc11e1c8c1a6"
 NLPModelsJuMP = "792afdf1-32c1-5681-94e0-d7bf7a5df49e"
@@ -19,7 +20,7 @@ Stopping = "c4fe5a9e-e7fb-5c3d-89d5-7f405ab2214f"
 [compat]
 #NLPModelsJuMP = "0.7"
 #SolverTools = "0.3"
-Stopping = "0.2.5 `https://github.com/tmigot/Stopping.jl#remove_lsstopping`"
+#Stopping = "0.2.5 `https://github.com/tmigot/Stopping.jl#remove_lsstopping`"
 julia = "1"
 
 [extras]

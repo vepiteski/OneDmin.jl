@@ -16,8 +16,8 @@ b = Inf
 scale = 1.0e-5
 
 #nlp = CUTEstModel("BEALE")
-#nlp = MathOptNLPModel(beale())
-nlp = MathProgNLPModel(beale())
+nlp = MathOptNLPModel(beale())
+#nlp = MathProgNLPModel(beale())
 
 dir = -grad(nlp, nlp.meta.x0) * scale
 h = LineModel(nlp, nlp.meta.x0, dir);
@@ -44,10 +44,19 @@ stp.meta.atol = γ
 stp.meta.rtol = γ
 
 
-stp = Glob_U(h, a=0.0, b=Inf, α=α, β =β, pick_in = pick_inN2, stp=stp)
+stp = bracket(h, a=0.0, b=Inf, α=α, β =β, pick_in = pick_ins, stp=stp)
 @show stp.current_state.x, stp.current_state.fx, stp.current_state.gx, status(stp)
 @show nlp.counters
 @show h.counters
 
-@test true
+reset!(h)
+reset!(nlp)
+reinit!(stp)
+
+stp2 = bracket_s(h, 0.0, Inf, α, β, stp)
+@show stp2.current_state.x, stp2.current_state.fx, stp2.current_state.gx, status(stp2)
+@show nlp.counters
+@show h.counters
+
+@test stp2.current_state.x == stp.current_state.x
 

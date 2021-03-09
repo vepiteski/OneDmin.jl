@@ -1,8 +1,9 @@
 module OneDmin
 
 using Polynomials
+using LinearAlgebra
 
-include("LocalIterations.jl")
+include("Local/LocalIterations.jl")
 
 using NLPModels
 using SolverTools
@@ -10,10 +11,10 @@ using Logging
 using Stopping
 
 include("LineSearch.jl")
-include("pick_inN.jl")
-include("pick_inS.jl")
-include("Bracket.jl")
 
+include("bracket/Bracket.jl")
+
+include("TR/TR1D.jl")
 
 
 end

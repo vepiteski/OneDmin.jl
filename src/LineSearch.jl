@@ -7,7 +7,7 @@
 # the ϕ function needs to know τ₀ and should store f₀ and g₀ to avoid recomputations
 
 #export LSModel, OneDModel, obj, grad, grad!, hess, rebase!, linesearch, prepare_LS 
-export LSModel, OneDModel
+export LSModel, OneDModel, linesearch, prepare_LS
 
 """ A LSModel is a specialized LineModel keeping track of the objective and gradient
     of the original NLPModel from which it is built. Moreover, it adjust the line model
@@ -109,6 +109,9 @@ end
 # With that given, the setup for a linesearch within an iteration is to call linesearch within
 # the loop, and prepare_LS before the loop.
 
+
+using LinearAlgebra
+
 function linesearch(ϕ    :: LSModel,
                     ϕstp :: AbstractStopping,  # be more specific for stp
                     x₀   :: Vector{T},
@@ -119,6 +122,7 @@ function linesearch(ϕ    :: LSModel,
                     τ₁   :: Real;
                     strongWolfe :: Bool = false,
                     logger :: AbstractLogger = NullLogger(),
+                    algo :: Function = bracket,
                     kwargs...) where T<:AbstractFloat
 
     # rebase the LSModel 
@@ -141,7 +145,7 @@ function linesearch(ϕ    :: LSModel,
 
     Logging.with_logger(logger) do
         #ϕstp = Glob_U(ϕ, a=0.0, b=Inf, α=α, β=β, stp = ϕstp, pick_in = pick_ins2, best=true)
-        ϕstp = Glob_U(ϕ, a=0.0, b=Inf, α=α, β=β, stp = ϕstp; kwargs...)
+        ϕstp = algo(ϕ, a=0.0, b=Inf, α=α, β=β, stp = ϕstp; kwargs...)
     end
 
     if !ϕstp.meta.optimal
