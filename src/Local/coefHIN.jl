@@ -1,3 +1,6 @@
+""" Computes the (4) coefficients of the cubic interpolant on the two
+    points x using the 4 values for function and derivative in dy
+"""
 function coefHIN3(x,dy)         # Cubic Hermite interpolation (Newton)
     # vector x: [x_1,x_2]
     # matrix dy contains 2 values, function and derivative each of the 2 points 
@@ -15,6 +18,10 @@ function coefHIN3(x,dy)         # Cubic Hermite interpolation (Newton)
 end
 
 
+""" Computes the (6) coefficients of the quintic interpolant on the two
+    points x using the 6 values for function and first and second 
+    derivative in dy
+"""
 function coefHIN5(x,dy)         # Quintic Hermite interpolation (Newton)
     # vector x: [x_1,x_2]
     # matrix dy contains 3 values, function, derivative and second derivatives of each of the 2 points 

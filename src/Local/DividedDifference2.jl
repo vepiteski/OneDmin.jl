@@ -1,3 +1,6 @@
+""" Computes divided differences of tabulated data n points x and 
+    for each of the n points, up to m derivatives  dy
+"""
 function DividedDifference2(x,dy)  # generate array of divided differences
     n, m = size(dy)                # n data points, m derivatives (0 to m-1)
     dd = zeros(typeof(x[1]),n*m,n*m)               # matrix of divided differences

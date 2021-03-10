@@ -22,7 +22,7 @@ probnames = sort(CUTEst.select(min_var=1,
                                only_free_var=true))
 
 @show length(probnames)
-#
+# Comment for the true test
  probnames = probnames[10:15]  # for testing quickly on a subset
 # add a dummy copy of the first problem
 probnames = insert!(probnames, 1, probnames[1])
@@ -104,7 +104,7 @@ for (fn, fnsimple) ∈ [(:bracket_N, :N),(:bracket_s, :s),(:bracket_N3, :N3),(:b
 end
 
 
-using DataStructures
+using OrderedCollections
 
 solvers = OrderedDict{Symbol,Function}(
     :Sec => s,

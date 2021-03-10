@@ -263,24 +263,10 @@ end
 push!(cubic0, s3Opt_iteration)
 
 
+
+
 export base, quintic, cubic1, cubic0
 
 for n in nameof.(base ∪ quintic ∪ cubic1 ∪ cubic0 )
     @eval export $n
 end
-
-#export quintic
-#for n in nameof.(quintic)
-#    @eval export $n
-#end
-
-#export cubic1
-#for n in nameof.(cubic1)
-#    @eval export $n
-#end
-
-#export cubic0
-#for n in nameof.(cubic0)
-#    @eval export $n
-#end
-
