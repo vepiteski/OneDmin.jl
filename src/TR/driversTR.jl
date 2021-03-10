@@ -1,4 +1,4 @@
-
+export TR1D_N, TR1D_s, TR1D_s2, TR1D_C2
 
 function TR1D_N(h, a, b, α, β, stp; kwargs...)
     return TR1D(h, a=0.0, b=Inf, α=α, β=β, stp=stp; kwargs...)

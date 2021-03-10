@@ -1,7 +1,8 @@
 include("TR1DModels.jl")
 include("TR1DModels3.jl")
+include("driversTR.jl")
 
-export TR
+export TR1D
 
 """
 TR_U is a scalar trust region implementation allowing variants involving a polynomial 
@@ -12,16 +13,16 @@ only the half line t>=a is considered
 
 A point t is searched such that ϕ(t) < ϕ(a)  and  α ≤ ϕ'(t) ≤ β
 """
-function TR(ϕ       :: OneDModel;
-            a       :: T = 0.0, b :: T = Inf,
-            α       :: T = -1e-8,  β  :: T = 1e-8,
-            stp     :: AbstractStopping = LS_Stopping(ϕ, LSAtT(a)),
-            η₁      :: Float64 = 0.25,
-            η₂      :: Float64 = 0.75,
-            red     :: Float64 = 0.5,
-            aug     :: Float64 = 5.0,
-            verbose :: Bool = false,
-            M       :: TR1DModel = secant(0.0,0.0,0.0) )  where T
+function TR1D(ϕ       :: OneDModel;
+              a       :: T = 0.0, b :: T = Inf,
+              α       :: T = -1e-8,  β  :: T = 1e-8,
+              stp     :: AbstractStopping = LS_Stopping(ϕ, LSAtT(a)),
+              η₁      :: Float64 = 0.25,
+              η₂      :: Float64 = 0.75,
+              red     :: Float64 = 0.5,
+              aug     :: Float64 = 5.0,
+              verbose :: Bool = false,
+              M       :: TR1DModel = secant(0.0,0.0,0.0) )  where T
     # Specialized TR for handling non-negativity constraint on t, i.e. a <= t
     # Trust region parameters
     Δp = 1.0  # >=0
@@ -54,7 +55,7 @@ function TR(ϕ       :: OneDModel;
     #OK = update_and_start!(stp, x = a, fx=ϕt, gx = dϕt)
     ϕ1  = obj(ϕ, T(1))
     dϕ1 = grad(ϕ, T(1))
-    OK = update_and_start!(stp, x = T(1), ht=ϕ1, gt = dϕ1) # try one for line search
+    OK = update_and_start!(stp, x = T(1), fx=ϕ1, gx = dϕ1) # try one for line search
 
     while !OK
         dN = solveModel(M, t)
