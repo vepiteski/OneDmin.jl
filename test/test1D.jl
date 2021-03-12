@@ -53,7 +53,7 @@ reset!(h)
 reset!(nlp)
 reinit!(stp)
 
-stp2 = bracket_s(h, 0.0, Inf, α, β, stp)
+stp2 = bracket_s(h, a=0.0, b=Inf, α=α, β=β, stp=stp)
 @show stp2.current_state.x, stp2.current_state.fx, stp2.current_state.gx, status(stp2)
 @show nlp.counters
 @show h.counters

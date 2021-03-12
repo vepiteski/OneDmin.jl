@@ -12,19 +12,19 @@ export TR1D_N, TR1D_s, TR1D_s2, TR1D_C2
 `TR1D_N` is a scalar trust region implementation using the Taylor quadratic model (Newton's method)
 """
 
-function TR1D_N(ϕ, a, b, α, β, stp; kwargs...)
-    return TR1D(ϕ, a=a, b=b, α=α, β=β, stp=stp; M = Taylor2{Float64}(), kwargs...)
+function TR1D_N(ϕ; kwargs...)
+    return TR1D(ϕ; M = Taylor2{Float64}(), kwargs...)
 end
 
-function TR1D_s(h, a, b, α, β, stp; kwargs...)
-    return TR1D(h, a=0.0, b=Inf, α=α, β=β, stp=stp; M = secant{Float64}(), kwargs...)
+function TR1D_s(ϕ; kwargs...)
+    return TR1D(ϕ; M = secant{Float64}(), kwargs...)
 end
 
-function TR1D_C2(h, a, b, α, β, stp; kwargs...)
-    return TR1D(h, a=0.0, b=Inf, α=α, β=β, stp=stp; M = TwoPoints3{Float64}(), kwargs...)
+function TR1D_C2(ϕ; kwargs...)
+    return TR1D(ϕ; M = TwoPoints3{Float64}(), kwargs...)
 end
 
-function TR1D_s2(h, a, b, α, β, stp; kwargs...)
-    return TR1D(h, a=0.0, b=Inf, α=α, β=β, stp=stp; M = secant3{Float64}(), kwargs...)
+function TR1D_s2(ϕ; kwargs...)
+    return TR1D(ϕ; M = secant3{Float64}(), kwargs...)
 end
 

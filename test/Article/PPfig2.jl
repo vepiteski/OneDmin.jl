@@ -68,7 +68,7 @@ for (fn, fnsimple) ∈ [(:bracket_N, :N),(:bracket_s, :s),(:bracket_N3, :N3),(:b
 
             
             # Actual timing and execution
-            t = @timed    stp = eval($fn)(h, a, b, α, β, stp)
+            t = @timed    stp = eval($fn)(h, a=a, b=b, α=α, β=β, stp=stp)
             
             # convert the information in Stopping to the "standard" diagnostic in JSO            
             st = stp.meta.optimal

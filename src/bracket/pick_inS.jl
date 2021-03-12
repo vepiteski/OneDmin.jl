@@ -1,4 +1,4 @@
-#export pick_ins2Opt, pick_ins, pick_ins2, pick_ins2N, pick_ins1
+export pick_ins2Opt, pick_ins, pick_ins2, pick_ins2N, pick_ins1
 
 # Tricky implementation to keep the predecessor iterate for inclusion in the secant formula
 #
