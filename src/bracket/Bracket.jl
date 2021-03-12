@@ -6,18 +6,25 @@ include("driversBracket.jl")
 # Version inspired by JCG algo 6.6 (Fletcher-Lemaréchal) which avoids computing
 # derivatives when not needed, e.g. if pick_in is the basic mid point.
 
-export bracket, pick_inB
+export bracket
 
 
+"""  `bracket(ϕ, a, b, stp, α, β, pick_in, best)`
+   - ϕ is a linemodel
+   - minimization in the interval [a,b], default [0,∞]. 
+      - [a,b] is an initial interval quaranteed to contain a local minimum; if not satisfied, the function exits. In particular, ϕ'(a) must be negative.
+   - stp : stopping object; atol and rtol are bypassed and the conditions below apply
+   - α<0<β is the (possibly asymmetric) stopping tolerance, default β=-α=1e-8
+   - solution to satisfy   α ≤ ϕ'(t\\*) ≤ β and ϕ(t\\*)<h(a)
+   - pick_in : function to pick a point in an interval; 
+      -  several variants are proposed, default enhanced secant 
+   - best option to bracket the best candidate or any minimizer such that h(t*)<h(a), default = true
+
+`bracket` is a composite implementation of 
+   - a bracketing scheme 
+   - an interval reduction scheme using a pick_in function to select a point in a given interval
+   - enhanced pick_in variants involving a polynomial interpolation (Newton like)
 """
-    bracket is a composite implementation of 
-    - a bracketing scheme 
-    - an interval reduction scheme using a pick_in function to select a point in a given interval
-    - enhanced pick_in variants involving a polynomial interpolation (Newton like)
-    
-        [a,b] is an initial interval quaranteed to contain a local minimum; if not satisfied, the function exits.
-    α<0<β is the (possibly asymmetric) stopping tolerance.
-    """
 function bracket(ϕ       :: OneDModel;   
                  a       :: T = 0.0 ,   b  :: T = Inf,
                  stp     :: AbstractStopping = NLPStopping(ϕ, OneDAtX(a)),
@@ -136,43 +143,36 @@ function bracket(ϕ       :: OneDModel;
 end
 
 
-mutable struct status
-    variablepriv :: Int
-    var2 :: Int
-end
-
-    
-
-spriv = status(123,222)
-
-global function displaypriv()
-    @show spriv
-    spriv.var2 *= 2
-end
-
-export displaypriv
 
 # Tricky implementation to have increasing jumps when b is infinite
-"""
-   pick_inInf is the common increase function when b=Inf
-"""
-pick_inInf
 let f_mult_inc = 5.0, inc = 1.0
+    global function setInf!(v)
+        inc = v
+    end
+    
     global function initInf!(;val :: Float64 = 1.0)
-        inc = val
+        setInf!(val)
         resetN3!() # resets the history for quintic Newton interpolation
         resetSec!()# resets the history for secant variants
     end
-    
-    """
-    pick_inInf is the common increase function when b=Inf
-    """
-    global function pick_inInf(a)
-        anew = a + inc
-        inc *= f_mult_inc
-        return anew
+
+    global function getInf()
+        return f_mult_inc, inc
     end
 end
+
+    
+"""
+    pick_inInf is the common increase function when b=Inf
+"""
+function pick_inInf(a)
+    f_mult_inc, inc = getInf()
+    anew = a + inc
+    inc *= f_mult_inc
+    setInf!(inc)
+    return anew
+end
+
 
 
 """
@@ -187,11 +187,6 @@ function pick_inB(a, b, ϕ, ϕa, ϕb, dϕa, dϕb, forward)
         return pick_inInf(a)
     end
 end
-
-
-include("pick_inS.jl")
-
-include("pick_inN.jl")
 
 
 """ Check that the given interval [a,b] is guaranteed to contain a solution 

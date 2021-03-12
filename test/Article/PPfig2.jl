@@ -124,7 +124,7 @@ for s in solvers
     stats[s[1]] = stats[s[1]][2:end,:]
 end
 
-include("PPpdfPaper.jl")
+#include("PPpdfPaper.jl")
 
-p = my_performance_profile(stats,costs[1], title = costnames[1])
-Plots.pdf(p, "Figure2")
+#p = my_performance_profile(stats,costs[1], title = costnames[1])
+#Plots.pdf(p, "Figure2")

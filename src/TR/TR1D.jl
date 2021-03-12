@@ -4,25 +4,28 @@ include("driversTR.jl")
 
 export TR1D
 
-"""
-TR_U is a scalar trust region implementation allowing variants involving a polynomial 
-interpolation (Newton like), in a Unified way
+""" `TR1D(ϕ, a, b, stp, α, β, η₁, η₂, red. aug, M)`
+   - ϕ is a linemodel
+   - minimization in the interval [a,b], default [0,∞]. 
+      - ϕ'(a) is assumed negative
+   - stp : stopping object; atol and rtol are bypassed and the conditions below apply
+   - α<0<β is the (possibly asymmetric) stopping tolerance, default β=-α=1e-8
+      - solution to satisfy   α ≤ ϕ'(t\\*) ≤ β and ϕ(t\\*)<h(a)
+   - η₁ and η₂ : trust region treshold for unsuccessesful and very successful iterations, default η₁=0.25, η₂ = 0.75
+   - red, aug : trust region reduction and augmentation ratio, default red=0.5, aug=5
+   - M a model in the sense of trust region, usually quadratic Taylor model.
 
-ϕ is the objective, a the starting point and it is assumed that ϕ'(a)<0 since 
-only the half line t>=a is considered
-
-A point t is searched such that ϕ(t) < ϕ(a)  and  α ≤ ϕ'(t) ≤ β
+`TR1D` is a scalar trust region implementation
 """
 function TR1D(ϕ       :: OneDModel;
               a       :: T = 0.0, b :: T = Inf,
-              α       :: T = -1e-8,  β  :: T = 1e-8,
               stp     :: AbstractStopping = LS_Stopping(ϕ, LSAtT(a)),
+              α       :: T = -1e-8,  β  :: T = 1e-8,
               η₁      :: Float64 = 0.25,
               η₂      :: Float64 = 0.75,
               red     :: Float64 = 0.5,
               aug     :: Float64 = 5.0,
-              verbose :: Bool = false,
-              M       :: TR1DModel = secant(0.0,0.0,0.0) )  where T
+              M       :: TR1DModel = Taylor2(0.0,0.0,0.0) )  where T
     # Specialized TR for handling non-negativity constraint on t, i.e. a <= t
     # Trust region parameters
     Δp = 1.0  # >=0
@@ -152,102 +155,5 @@ function TR1D(ϕ       :: OneDModel;
         
     return stp
     
-end
-
-function TR_UM_N(h, a, b, α, β, stp; kwargs...)
-    return TR_UM(h, a=0.0, b=Inf, α=α, β=β, stp=stp; kwargs...)
-end
-
-function TR_UM_s(h, a, b, α, β, stp; kwargs...)
-    return TR_UM(h, a=0.0, b=Inf, α=α, β=β, stp=stp; M = secant{Float64}(), kwargs...)
-end
-
-function TR_UM_C2(h, a, b, α, β, stp; kwargs...)
-    return TR_UM(h, a=0.0, b=Inf, α=α, β=β, stp=stp; M = TwoPoints3{Float64}(), kwargs...)
-end
-
-function TR_UM_s2(h, a, b, α, β, stp; kwargs...)
-    return TR_UM(h, a=0.0, b=Inf, α=α, β=β, stp=stp; M = secant3{Float64}(), kwargs...)
-end
-
-
-function TR_N(nlp, a, γ;  kwargs...)
-    dir = -grad(nlp, nlp.meta.x0) * scale
-    h = LineModel(nlp, nlp.meta.x0, dir);
-
-    dϕt0 = grad(h,a)
-    ϵ = max(abs(dϕt0),1.0)
-    α = -γ*ϵ
-    β =  γ*ϵ
-    reset!(h)
-    reset!(nlp)
-    #@show a, b, α, β
-    return TR_U(h, a, α, β, initH = initH_N, updateH = updateH_N ; kwargs...)
-end
-
-
-function TR_s(nlp, a, γ;  kwargs...)
-    dir = -grad(nlp, nlp.meta.x0) * scale
-    h = LineModel(nlp, nlp.meta.x0, dir);
-
-    dϕt0 = grad(h,a)
-    ϵ = max(abs(dϕt0),1.0)
-    α = -γ*ϵ
-    β =  γ*ϵ
-    reset!(h)
-    reset!(nlp)
-    #@show a, b, α, β
-    return TR_U(h, a, α, β, initH = initH_s!, updateH = updateH_s! ; kwargs...)
-end
-
-
-function TR_sec(nlp, a, b, γ, kwargs...)
-    return TR_s(nlp, a, γ, kwargs...)
-end
-
-function TR_Nwt(nlp, a, b, γ; kwargs...)
-    return TR_N(nlp, a, γ, kwargs...)
-end
-
-
-function TR_N_L(h, a, stp; verbose = false,  kwargs...)
-    #@show "NEW TR_N"
-    reset!(h)
-    return TR_U(h, a, stp = stp,  M = Taylor2{Float64}(), verbose = verbose  ; kwargs...)
-end
-
-function TR_s_L(h, a, stp; verbose = false,  kwargs...)
-    #@show "NEW TR_s"
-    reset!(h)
-    return TR_U(h, a, stp = stp,  M = secant{Float64}(), verbose = verbose  ; kwargs...)
-end
-
-function TR_cub2_L(h, a, stp; verbose = false,  kwargs...)
-    #@show "NEW TR_cub2"
-    reset!(h)
-    return TR_U(h, a, stp = stp,  M = TwoPoints3{Float64}(), verbose = verbose ; kwargs...)
-end
-
-function TR_seccub2_L(h, a, stp; verbose = false,  kwargs...)
-    #@show "NEW TR_seccub2"
-    reset!(h)
-    return TR_U(h, a, stp = stp,  M = secant3{Float64}(), verbose = verbose ; kwargs...)
-end
-
-
-function TR_sec_L(h, a, b, α, β, stp; verbose = false, kwargs...)
-    return TR_s_L(h, a, stp, verbose = verbose, kwargs...)
-end
-
-function TR_Nwt_L(h, a, b, α, β, stp; verbose = false, kwargs...)
-    return TR_N_L(h, a, stp, verbose = verbose, kwargs...)
-end
-
-function TR_cub2_L(h, a, b, α, β, stp; verbose = false, kwargs...)
-    return TR_cub2_L(h, a, stp, verbose = verbose, kwargs...)
-end
-
-function TR_seccub2_L(h, a, b, α, β, stp; verbose = false, kwargs...)
-    return TR_seccub2_L(h, a, stp, verbose = verbose, kwargs...)
 end
 

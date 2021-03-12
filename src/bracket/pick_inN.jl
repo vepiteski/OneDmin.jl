@@ -1,4 +1,4 @@
-export pick_inN2, pick_inN, pick_inN3
+#export pick_inN2, pick_inN, pick_inN3
 
 """
 pick\\_inN2 is the picking scheme which picks the Newton point whenever possible. 

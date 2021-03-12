@@ -1,4 +1,4 @@
-export pick_ins2Opt, pick_ins, pick_ins2, pick_ins2N, pick_ins1
+#export pick_ins2Opt, pick_ins, pick_ins2, pick_ins2N, pick_ins1
 
 # Tricky implementation to keep the predecessor iterate for inclusion in the secant formula
 #
@@ -14,11 +14,11 @@ let (tpred, ϕpred, dϕpred) = (Inf, Inf, Inf)
     # test version that filters first the first secant step and then tries the second.
     # Should give the same iterates, slightly faster.
     
-    """
-        pick_ins2Opt is the scheme which picks the secant point whenever possible and improves it
-        using a pseudo further secant iteration using an Hermite interpolant of ϕ using ϕand dϕ at 
-        the points defining the secant.
-    """
+#    """
+#        pick_ins2Opt is the scheme which picks the secant point whenever possible and improves it
+#        using a pseudo further secant iteration using an Hermite interpolant of ϕ using ϕand dϕ at 
+#        the points defining the secant.
+#    """
     global function pick_ins2Opt(a, b, ϕ, ϕa, ϕb, dϕa, dϕb, forward)        
         L = b - a
         if forward
@@ -113,11 +113,11 @@ let (tpred, ϕpred, dϕpred) = (Inf, Inf, Inf)
     end
     
 
-    """
-            pick\\_ins2 is the picking scheme which picks the secant point whenever possible and improves it
-        using a pseudo further secant iteration using an Hermite interpolant of ϕ using ϕ and dϕ at 
-        the points defining the secant.
-    """
+#    """
+#            pick\\_ins2 is the picking scheme which picks the secant point whenever possible and improve#s it
+#        using a pseudo further secant iteration using an Hermite interpolant of ϕ using ϕ and dϕ at 
+#        the points defining the secant.
+#    """
     global function pick_ins2(a, b, ϕ, ϕa, ϕb, dϕa, dϕb, forward)
         L = b - a
         if forward
@@ -175,11 +175,11 @@ let (tpred, ϕpred, dϕpred) = (Inf, Inf, Inf)
 
 
     
-    """
-        pick\\_ins2N is the picking scheme picking the secant point whenever possible and improves it
-        using a pseudo further Newton iteration using an Hermite interpolant of ϕ using ϕ and dϕ at 
-        the points defining the secant.
-    """
+#    """
+#        pick\\_ins2N is the picking scheme picking the secant point whenever possible and improves it
+#        using a pseudo further Newton iteration using an Hermite interpolant of ϕ using ϕ and dϕ at 
+#        the points defining the secant.
+#    """
     global function pick_ins2N(a, b, ϕ, ϕa, ϕb, dϕa, dϕb, forward)
         L = b - a
         if forward
@@ -237,11 +237,11 @@ let (tpred, ϕpred, dϕpred) = (Inf, Inf, Inf)
         end
     end
 
-    """
-        pick\\_ins2 is the picking scheme which picks the secant point whenever possible and improves it
-        using a pseudo further secant iteration using an Hermite interpolant of ϕ using ϕ and dϕ at 
-        the points defining the secant.
-    """
+#    """
+#        pick\\_ins2 is the picking scheme which picks the secant point whenever possible and improves it
+#        using a pseudo further secant iteration using an Hermite interpolant of ϕ using ϕ and dϕ at 
+#        the points defining the secant.
+#    """
     global function pick_ins1(a, b, ϕ, ϕa, ϕb, dϕa, dϕb, forward)
         L = b - a
         if forward
@@ -278,10 +278,10 @@ end  #  let
 # Repeat the doc, the actual behavior of docstrings is not as documented:(
 
 
-    """
-    pick\\_ins is the picking scheme which picks the secant point whenever possible. 
-    """
-pick_ins
+#    """
+#    pick\\_ins is the picking scheme which picks the secant point whenever possible. 
+#    """
+#pick_ins
 
 
     """
