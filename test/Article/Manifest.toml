@@ -1069,11 +1069,9 @@ version = "0.33.3"
 
 [[Stopping]]
 deps = ["DataFrames", "LinearAlgebra", "LinearOperators", "NLPModels", "Printf", "SolverTools", "SparseArrays", "Test"]
-git-tree-sha1 = "b06c8f21b614d2a2f4488d93e55b6e818844ddb3"
-repo-rev = "master"
-repo-url = "https://github.com/vepiteski/Stopping.jl"
+git-tree-sha1 = "9965818ec788cba2f3ee0cabef711b631363a621"
 uuid = "c4fe5a9e-e7fb-5c3d-89d5-7f405ab2214f"
-version = "0.2.5"
+version = "0.3.0"
 
 [[StructArrays]]
 deps = ["Adapt", "DataAPI", "Tables"]
