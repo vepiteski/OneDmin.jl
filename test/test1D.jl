@@ -1,9 +1,11 @@
+using OneDmin
 
 using NLPModels
 #using CUTEst
 using OptimizationProblems
 using NLPModelsJuMP
 using SolverTools   # Pour avoir les utilitaires d'affichage log_header et log_row
+using SolverCore
 
 using Stopping
 using Logging
@@ -60,3 +62,8 @@ stp2 = bracket_s(h, a=0.0, b=Inf, α=α, β=β, stp=stp)
 
 @test stp2.current_state.x == stp.current_state.x
 
+@info "Executing bracket(h)"
+stp3 = bracket(h)
+
+@info "Executing TR1D(h)"
+stp4 = TR1D(h)

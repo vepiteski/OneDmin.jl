@@ -7,6 +7,7 @@ include("Local/LocalIterations.jl")
 
 using NLPModels
 using SolverTools
+using SolverCore
 using Logging
 using Stopping
 

@@ -27,7 +27,10 @@ export bracket
 """
 function bracket(ϕ       :: OneDModel;   
                  a       :: T = 0.0 ,   b  :: T = Inf,
-                 stp     :: AbstractStopping = NLPStopping(ϕ, OneDAtX(a)),
+                 #stp     :: AbstractStopping = NLPStopping(ϕ, OneDAtX(a)),
+                 stp     :: AbstractStopping =
+                 NLPStopping(ϕ, OneDAtX(a, zeros(2)),
+                             tol_check=(a,b,c) -> ones(2)),
                  α       :: T = -1e-8,  β  :: T = 1e-8,
                  pick_in :: Function = pick_ins2,  # defaults to secant's enhancement
                  best    :: Bool = true,           # aim for the lowest minimizer

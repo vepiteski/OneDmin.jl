@@ -19,7 +19,10 @@ export TR1D
 """
 function TR1D(ϕ       :: OneDModel;
               a       :: T = 0.0, b :: T = Inf,
-              stp     :: AbstractStopping = LS_Stopping(ϕ, LSAtT(a)),
+              stp     :: AbstractStopping =
+              NLPStopping(ϕ, OneDAtX(a, zeros(2)),
+                          tol_check=(a,b,c) -> ones(2)),
+              #stp     :: AbstractStopping = LS_Stopping(ϕ, LSAtT(a)),
               α       :: T = -1e-8,  β  :: T = 1e-8,
               η₁      :: Float64 = 0.25,
               η₂      :: Float64 = 0.75,
