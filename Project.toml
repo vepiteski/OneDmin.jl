@@ -18,6 +18,7 @@ SolverTools = "b5612192-2639-5dc1-abfe-fbedd65fab29"
 Stopping = "c4fe5a9e-e7fb-5c3d-89d5-7f405ab2214f"
 
 [compat]
+NLPModels = "0.16"
 julia = "1"
 
 [extras]
