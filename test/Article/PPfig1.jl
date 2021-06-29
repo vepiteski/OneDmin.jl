@@ -126,6 +126,23 @@ for s in solvers
     stats[s[1]] = stats[s[1]][2:end,:]
 end
 
+
+#using FileIO
+#using JLD2
+#
+# Save the stats produced above:
+#
+#file = File{format"JLD2"}("BsNTime.jld2")
+#save(file, "stats", stats)
+
+
+# restore the stats in the variable "sol2"
+#
+#sol2 = jldopen("BsNTime.jld") do file
+#     file["stats"]
+#   end
+
+
 include("PPpdfPaper.jl")
 
 p = my_performance_profile(stats,costs[1], title = costnames[1])
