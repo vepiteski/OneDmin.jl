@@ -12,6 +12,7 @@ using SolverBenchmark
 using Printf
 using DataFrames
 using SolverTools
+using SolverCore
 using Stopping
 
 using OneDmin
@@ -129,3 +130,9 @@ include("PPpdfPaper.jl")
 
 p = my_performance_profile(stats,costs[1], title = costnames[1])
 Plots.pdf(p, "Figure1")
+
+#
+# Array of profiles for obj, grad, h
+
+#p = my_profile_solvers(stats, costs, costnames)
+#Plots.pdf(p, "test") 
