@@ -13,18 +13,18 @@ export LSModel, OneDModel, linesearch, prepare_LS
     of the original NLPModel from which it is built. Moreover, it adjust the line model
     to the Armijo parameter τ₀: ϕ(t) = f(x₀ + t*d) - f(x₀) - t*τ₀*∇f(x₀)*d
     """
-mutable struct LSModel <: AbstractNLPModel
-    meta :: NLPModelMeta
+mutable struct LSModel{T, S} <: AbstractNLPModel{T, S}
+    meta :: NLPModelMeta{T, S}
     counters :: Counters
-    nlp :: AbstractNLPModel
-    x₀:: AbstractVector
-    d :: AbstractVector
-    τ₀:: AbstractFloat
-    f₀:: AbstractFloat   # f(x₀)
-    g₀:: AbstractFloat   # ∇f(x₀)⋅d
-    x :: AbstractVector  # current point in the nlp
-    f :: AbstractFloat   # objective of the nlp f(x)
-    ∇f:: AbstractVector  # to avoid recomputing it outside the line search 
+    nlp :: AbstractNLPModel{T, S}
+    x₀:: S
+    d :: S
+    τ₀:: T
+    f₀:: T   # f(x₀)
+    g₀:: T   # ∇f(x₀)⋅d
+    x :: S  # current point in the nlp
+    f :: T   # objective of the nlp f(x)
+    ∇f:: S  # to avoid recomputing it outside the line search 
 end
 
 
@@ -32,22 +32,22 @@ OneDModel = Union{LineModel, LSModel}
 
 
 
-function LSModel(nlp, x₀, d, τ)
-    f₀ = obj(nlp,x₀)
+function LSModel(nlp::AbstractNLPModel{T, S}, x₀::S, d::S, τ::T) where {T, S}
+    f₀ = obj(nlp, x₀)
     g₀ = grad(nlp, x₀)⋅d
     ∇f = similar(x₀)   # instantiate the room to memorize the last gradient
     x = copy(x₀)
     τ₀ = τ
-    meta = NLPModelMeta(1, x0=zeros(eltype(x₀), 1), name="LSModel to $(nlp.meta.name))")
+    meta = NLPModelMeta{T, S}(1, x0=zeros(T, 1), name="LSModel to $(nlp.meta.name))")
 
     return LSModel(meta, Counters(), nlp, x₀, d, τ₀, f₀, g₀, x, f₀, ∇f)
 end
 
-function LSModel(nlp, x₀, d, τ, f₀, g₀)
+function LSModel(nlp::AbstractNLPModel{T, S}, x₀::S, d::S, τ::T, f₀::T, g₀::T) where {T, S}
     ∇f = similar(x₀)   # instantiate the room to memorize the last gradient
     x = copy(x₀)
     τ₀ = τ
-    meta = NLPModelMeta(1, x0=zeros(eltype(x₀), 1), name="LSModel to $(nlp.meta.name))")
+    meta = NLPModelMeta(1, x0=zeros(T, 1), name="LSModel to $(nlp.meta.name))")
 
     return LSModel(meta, Counters(), nlp, x₀, d, τ₀, f₀, g₀, x, f₀, ∇f)
 end
