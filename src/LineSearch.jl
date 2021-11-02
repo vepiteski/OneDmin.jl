@@ -109,9 +109,6 @@ end
 # With that given, the setup for a linesearch within an iteration is to call linesearch within
 # the loop, and prepare_LS before the loop.
 
-
-using LinearAlgebra
-
 function linesearch(ϕ    :: LSModel,
                     ϕstp :: AbstractStopping,  # be more specific for stp
                     x₀   :: Vector{T},
