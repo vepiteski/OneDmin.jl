@@ -1,6 +1,3 @@
-using NLPModels
-using SolverTools
-
 abstract type TR1DModel{T} end
 
 abstract type QuadraticModel{T} <: TR1DModel{T} end
