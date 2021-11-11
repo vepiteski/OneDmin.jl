@@ -1,0 +1,3 @@
+var documenterSearchIndex = {"docs":
+[{"location":"#OneDmin.jl","page":"Home","title":"OneDmin.jl","text":"","category":"section"},{"location":"#How-to-install","page":"Home","title":"How to install","text":"","category":"section"},{"location":"","page":"Home","title":"Home","text":"Install and test the OneDmin package with the Julia package manager:","category":"page"},{"location":"","page":"Home","title":"Home","text":"pkg> add OneDmin\npkg> test OneDmin","category":"page"},{"location":"","page":"Home","title":"Home","text":"You can access the most up-to-date version of the OneDmin package using:","category":"page"},{"location":"","page":"Home","title":"Home","text":"pkg> add https://github.com/vepiteski/OneDmin.jl\npkg> test OneDmin","category":"page"}]
+}
