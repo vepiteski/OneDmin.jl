@@ -66,7 +66,7 @@ push!(picks, bracket_s)
 using 2 secant iterations on the cubic interpolant
 """
 function bracket_s2(ϕ;  kwargs...)
-    reset!(h)
+    reset!(ϕ)
     resetSec!()
     return bracket(ϕ,  pick_in = pick_ins2; kwargs...)
 end
