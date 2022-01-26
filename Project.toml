@@ -17,7 +17,7 @@ NLPModels = "0.17"
 Polynomials = "2"
 SolverCore = "0.2"
 SolverTools = "0.7"
-Stopping = "0.3"
+Stopping = "0.4"
 julia = "1"
 
 [extras]
