@@ -18,7 +18,7 @@ b = Inf
 scale = 1.0e-5
 
 #nlp = CUTEstModel("BEALE")
-nlp = MathOptNLPModel(beale())
+nlp = MathOptNLPModel(PureJuMP.beale())
 #nlp = MathProgNLPModel(beale())
 
 dir = -grad(nlp, nlp.meta.x0) * scale
