@@ -13,7 +13,7 @@ SolverTools = "b5612192-2639-5dc1-abfe-fbedd65fab29"
 Stopping = "c4fe5a9e-e7fb-5c3d-89d5-7f405ab2214f"
 
 [compat]
-NLPModels = "0.17"
+NLPModels = "0"
 Polynomials = "2"
 SolverCore = "0.2"
 SolverTools = "0.7"
@@ -21,12 +21,10 @@ Stopping = "0.4"
 julia = "1"
 
 [extras]
-CUTEst = "1b53aba6-35b6-5f92-a507-53c67d53f819"
-ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
 NLPModelsJuMP = "792afdf1-32c1-5681-94e0-d7bf7a5df49e"
+ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
 OptimizationProblems = "5049e819-d29b-5fba-b941-0eee7e64c1c6"
-Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["CUTEst", "ForwardDiff", "NLPModelsJuMP", "OptimizationProblems", "Printf", "Test"]
+test = ["NLPModelsJuMP", "ForwardDiff", "OptimizationProblems", "Test"]

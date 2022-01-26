@@ -1,6 +1,5 @@
 using OneDmin
 using Test
-using Printf
 using Logging
 
 fh(x) = - ( x + sin(x)) * exp(-x^2)
@@ -26,8 +25,8 @@ function test(algo::Function, x, xm)
     
     it = 0
     maxit = 25
-    with_logger(Logging.NullLogger()) do
-        @info "it  x  |h'|"
+    #with_logger(Logging.NullLogger()) do
+    #    @info "it  x  |h'|"
         while abs(dh) > BigFloat("1.0e-1200")
             xp = algo(x,xm,h,hm,dh,dhm,d2h,d2hm,d3h,0)
             x, xm = xp, x
@@ -43,9 +42,9 @@ function test(algo::Function, x, xm)
             
             it += 1
             if (it > maxit)  break  end
-            @info @sprintf("%2d",it), @sprintf("%f",x), @sprintf("%.2e",abs(dh))
+    #        @info @sprintf("%2d",it), @sprintf("%f",x), @sprintf("%.2e",abs(dh))
         end
-    end
+    #end
     return it 
     
 end
