@@ -146,7 +146,7 @@ function linesearch(ϕ    :: LSModel,
     end
 
     if !ϕstp.meta.optimal
-        @warn "Optimalité non atteinte"
+        @warn "LineSearch failure"
         @info status(ϕstp,list=true)
     end
     # unpack the results
