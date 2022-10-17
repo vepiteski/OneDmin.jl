@@ -178,7 +178,9 @@ function prepare_LS(stp, x₀, d, τ₀, f₀, g₀)
     #Optimality_check will be setup in the LineSearch call
     #
 
-    ϕstp.meta.max_iter = 40
+    ϕstp.meta.max_iter = 52 # Float64 precision 2^(-52)
+    # TODO  parametrize with T and use log precision(T)
+    
     ϕstp.meta.atol = 0.0   # to rely only on the Armijo-Wolfe conditions
     ϕstp.meta.rtol = 0.0   # otherwise, tolerance may prohibe convergence
     ϕstp.meta.unbounded_threshold = 1e100
