@@ -142,7 +142,7 @@ function linesearch(ϕ    :: LSModel,
 
     Logging.with_logger(logger) do
         #ϕstp = Glob_U(ϕ, a=0.0, b=Inf, α=α, β=β, stp = ϕstp, pick_in = pick_ins2, best=true)
-        ϕstp = algo(ϕ, a=0.0, b=Inf, α=α, β=β, stp = ϕstp; kwargs...)
+        ϕstp = algo(ϕ, a=T(0.0), b=T(Inf), α=α, β=β, stp = ϕstp; kwargs...)
     end
 
     if !ϕstp.meta.optimal
@@ -159,7 +159,12 @@ function linesearch(ϕ    :: LSModel,
 end
 
 
-function prepare_LS(stp, x₀, d, τ₀, f₀, g₀)
+function prepare_LS(stp :: AbstractStopping,
+                    x₀  :: Vector{T},
+                    d   :: Vector{T},
+                    τ₀  :: Real,
+                    f₀  :: Real,
+                    g₀  :: Vector{T}) where T<:AbstractFloat
 
     # extract the nlp
     nlp = stp.pb
@@ -178,11 +183,10 @@ function prepare_LS(stp, x₀, d, τ₀, f₀, g₀)
     #Optimality_check will be setup in the LineSearch call
     #
 
-    ϕstp.meta.max_iter = 52 # Float64 precision 2^(-52)
-    # TODO  parametrize with T and use log precision(T)
+    ϕstp.meta.max_iter = -Int(log2(eps(T)))   #  52 Float64 precision 2^(-52)
     
     ϕstp.meta.atol = 0.0   # to rely only on the Armijo-Wolfe conditions
     ϕstp.meta.rtol = 0.0   # otherwise, tolerance may prohibe convergence
     ϕstp.meta.unbounded_threshold = 1e100
-    return ϕ,ϕstp
+    return ϕ, ϕstp
 end
