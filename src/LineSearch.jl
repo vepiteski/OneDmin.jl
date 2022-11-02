@@ -127,8 +127,8 @@ function linesearch(ϕ    :: LSModel,
     rebase!(ϕ, x₀, d, τ₀, f₀, g₀)
     
     # convert the Armijo and Wolfe criteria to an asymetric interval [α,β]
-    α = (τ₁-τ₀)*g₀
-    β = Inf 
+    α = T((τ₁-τ₀)*g₀)
+    β = T(Inf) 
     if strongWolfe  β = -(τ₁+τ₀)*g₀ end
 
     # reuse the stopping
