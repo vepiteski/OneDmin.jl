@@ -174,9 +174,9 @@ function prepare_LS(stp :: AbstractStopping,
 
     # instantiate stp, which will be adjusted at each iteration's current data
     #ϕstp = LS_Stopping(ϕ, (p,s) -> optim_check_LS(p,s), LSAtT(0.0),  main_stp = stp)
-    ϕstp = NLPStopping(ϕ, OneDAtX(0.0,zeros(2)),
+    ϕstp = NLPStopping(ϕ, OneDAtX(T(0.0),zeros(T,2)),
                        main_stp = stp,
-                       tol_check=(a,b,c) -> ones(2))
+                       tol_check=(a,b,c) -> ones(T,2))
     #ϕstp.stop_remote = cheap_stop_remote_control(resources_check=false)
 
     #
