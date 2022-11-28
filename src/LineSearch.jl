@@ -22,9 +22,9 @@ mutable struct LSModel{T, S} <: AbstractNLPModel{T, S}
     τ₀:: T
     f₀:: T   # f(x₀)
     g₀:: T   # ∇f(x₀)⋅d
-    x :: S  # current point in the nlp
+    x :: S   # current point in the nlp
     f :: T   # objective of the nlp f(x)
-    ∇f:: S  # to avoid recomputing it outside the line search 
+    ∇f:: S   # to avoid recomputing it outside the line search 
 end
 
 

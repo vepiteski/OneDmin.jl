@@ -26,16 +26,16 @@ export bracket
    - enhanced pick_in variants involving a polynomial interpolation (Newton like)
 """
 function bracket(ϕ       :: OneDModel;   
-                 a       :: T = 0.0 ,   b  :: T = Inf,
+                 a       :: T = Float64(0.0) ,   b  :: T = Inf,
                  #stp     :: AbstractStopping = NLPStopping(ϕ, OneDAtX(a)),
                  stp     :: AbstractStopping =
-                 NLPStopping(ϕ, OneDAtX(a, zeros(T,2)),
-                             tol_check=(a,b,c) -> ones(T,2)),
+                            NLPStopping(ϕ, OneDAtX(a, zeros(T,2))),
+                                        #tol_check=(a,b,c) -> ones(T,2)),
                  α       :: T = -1e-8,  β  :: T = 1e-8,
                  pick_in :: Function = pick_ins2,  # defaults to secant's enhancement
                  best    :: Bool = true,           # aim for the lowest minimizer
                  #kwargs...
-                 ) where T <: AbstractFloat
+                 ) where {T <: AbstractFloat}
 
 
     ϕa, dϕa = NaN,  NaN

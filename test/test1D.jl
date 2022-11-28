@@ -3,7 +3,8 @@ using OneDmin
 using NLPModels
 #using CUTEst
 using OptimizationProblems
-using NLPModelsJuMP
+#using NLPModelsJuMP
+using ADNLPModels
 using SolverTools   # Pour avoir les utilitaires d'affichage log_header et log_row
 using SolverCore
 
@@ -18,7 +19,8 @@ b = Inf
 scale = 1.0e-5
 
 #nlp = CUTEstModel("BEALE")
-nlp = MathOptNLPModel(PureJuMP.beale())
+#nlp = MathOptNLPModel(PureJuMP.beale())
+nlp = ADNLPProblems.beale()
 #nlp = MathProgNLPModel(beale())
 
 dir = -grad(nlp, nlp.meta.x0) * scale
@@ -62,8 +64,12 @@ stp2 = bracket_s(h, a=0.0, b=Inf, α=α, β=β, stp=stp)
 
 @test stp2.current_state.x == stp.current_state.x
 
-@info "Executing bracket(h)"
-stp3 = bracket(h)
+#@info "Executing bracket(h)"
+#stp3 = bracket(h, a=0.0, b=Inf, α=α, β=β, stp=stp)
+reset!(h)
+reset!(nlp)
+reinit!(stp)
 
 @info "Executing TR1D(h)"
-stp4 = TR1D(h)
+stp4 = TR1D(h, a=0.0, b=Inf, α=α, β=β, stp=stp)
+@test stp4.current_state.x == stp.current_state.x
